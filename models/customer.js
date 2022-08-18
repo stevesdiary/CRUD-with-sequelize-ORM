@@ -2,7 +2,9 @@ const Sequelize = require('sequelize');
 const sequelize = require('../utility/database');
 const Customer = sequelize.define("customer", {
    id: {
-      type: Sequelize.UUIDV4,
+      type: Sequelize.UUID,
+      // defaultValue: Sequelize.literal('uuid_generate_v4()'),
+      defaultValue: Sequelize.UUIDV4,
       allowNull: false,
       primaryKey: true,
    },
@@ -23,6 +25,9 @@ const Customer = sequelize.define("customer", {
       allowNull: false,
    },
    repayment: {
+      type: Sequelize.INTEGER,
+   },
+   paid: {
       type: Sequelize.INTEGER,
    },
    balance: {
