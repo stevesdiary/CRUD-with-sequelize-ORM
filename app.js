@@ -87,7 +87,7 @@ sequelize.sync().then((result)=>{
             }
          }).then( (result) => {
             if (result === [1]){
-               res.send (customer)
+               res.send (result, "Customer updated successfully")
             }
             console.log(result, "Data has been updated successfully:", repayment, paid, status)
             res.send(result)
@@ -95,13 +95,17 @@ sequelize.sync().then((result)=>{
       } )
    })
 
-   app.delete('/delete', async (req, res)=> {
-      const id = req.body.id
-
+   app.delete('/delete/:id', async (req, res)=> {
+      const id = req.params;
+      await Customer.destroy({where: id})
+      try {
+         return res.json("Item deleted Successfully!")
+      } catch (err) {
+         console.log(err, "or item not found")
+         return res.status(500).json(err)
+      }
    })
 
 app.listen(3000, function(){
    console.log("App listening on port 3000")
 });
-
-
